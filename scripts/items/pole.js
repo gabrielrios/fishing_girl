@@ -5,7 +5,7 @@
 */
 
 re.c('pole')
-.requires('image fishingRod1.png update keyboard')
+.requires('image fishingRod1.png update keyboard mouse')
 .defines({
 	height: 50,
   rotation: 0, // Degrees
@@ -44,14 +44,19 @@ re.c('pole')
     if (!this.casting) {
       this.rotation = 0;
     }
+
+    if (this.lure == null) {
+      this.lure = re.e('lure')
+      this.lure.setPole(this)
+    }
     this.casting = true;
   },
 
   throwLure: function() {
     this.lure.castFromPole(this);
-    this.stopCasting()
-    this.lure = re.e('lure')
-    this.lure.setPole(this)
+    this.lure = null
+    if (this.castingDirection == -1)
+      this.castingDirection *= -1
   },
 
   // move to other component
@@ -64,8 +69,10 @@ re.c('pole')
   this.lure.setPole(this)
 
   this.on('update', this.update)
-  this.on('keydown:a', this.startCasting)
-  this.on('keyup:a', this.throwLure)
+  // this.on('keydown:a', this.startCasting)
+  // this.on('keyup:a', this.throwLure)
+  this.on('mousedown', this.startCasting)
+  this.on('mouseup', this.throwLure)
 })
 .dispose(function(){
   

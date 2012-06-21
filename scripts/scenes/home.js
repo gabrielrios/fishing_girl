@@ -10,6 +10,8 @@ re.scene('home')
   re.e('cliff')
   re.e('hero')
 
+  re.e('line')
+
   pole = re.e('pole')
   .attr('posX', 210)
   .attr('posY', 130)
