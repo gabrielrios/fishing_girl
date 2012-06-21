@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="64" height="25" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="area01_level_tiles" tilewidth="16" tileheight="16">
+  <image source="../../../../../Downloads/gfxlib-fuzed/Backgrounds/lev01_checkers/area01_tileset/area01_level_tiles.png" trans="ff00ff" width="320" height="200"/>
+ </tileset>
+ <tileset firstgid="241" name="sewer_tileset" tilewidth="16" tileheight="16">
+  <image source="../../../../../Downloads/sewer_tileset.png" trans="ff00ff" width="192" height="217"/>
+ </tileset>
+ <layer name="Camada de Tiles 1" width="64" height="25">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20PBxQAAAAAAMCXARkAAAE=
+  </data>
+ </layer>
+ <layer name="mapa" width="64" height="25">
+  <data encoding="base64" compression="zlib">
+   eJztz7ENgDAMRUFHCTuQFaDL/sPhFeIGIe6kL7d+EQAAAP8wclfuLtwjt9q3d2ZDL27qf/1//fr169evX79+/Xt7AFc+eQY=
+  </data>
+ </layer>
+</map>
