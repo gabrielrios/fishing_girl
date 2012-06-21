@@ -4,14 +4,17 @@ re.scene('home')
   re.preventDefault('a');
 
   this.level = re('level1.tmx')[0]
-  this.level.build()
+  // this.level.build()
   
+  var water = re.e('water')
+  re.e('cliff')
+  re.e('hero')
+
   pole = re.e('pole')
-  .attr('posX', 250)
-  // .alignHor()
-  .alignVer();
+  .attr('posX', 210)
+  .attr('posY', 130)
 
-
+  
   re.e('text align')
   .text('Click to cast!')
   .alignTop(5)

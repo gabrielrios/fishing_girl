@@ -5,7 +5,7 @@
 */
 
 re.c('pole')
-.requires('image fishingRod1.png update align keyboard')
+.requires('image fishingRod1.png update keyboard')
 .defines({
 	height: 50,
   rotation: 0, // Degrees
@@ -50,6 +50,13 @@ re.c('pole')
   throwLure: function() {
     this.lure.castFromPole(this);
     this.stopCasting()
+    this.lure = re.e('lure')
+    this.lure.setPole(this)
+  },
+
+  // move to other component
+  scaledSizeX: function() {
+    return this.sizeX*this.scaleX
   }
 })
 .init(function(){
