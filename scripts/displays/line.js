@@ -5,7 +5,7 @@ re.c('line')
 		pole = re('pole').first()
 		lure = re('lure').first()
 
-		if (pole && lure && (lure.flying || lure.floating)) {
+		if (pole && lure && (['flying', 'floating'].indexOf(lure.state) >= 0)) {
 			pAngle = pole.rotation
 			pHip = pole.scaledSizeX()
 		  	angle = degreeToRadian(pAngle*-1)

@@ -1,11 +1,16 @@
+/*
+	Fishing Lure
+
+	states: attached, flying, floating
+*/
+
 re.c('lure')
 .requires('image lureSmall.png update mouse')
 .defines({
   color: 'rgb(100, 200, 200)',
   radius: 5,
-  estate: 'attached'
+  state: 'attached',
   castedAngle: 0,
-  floating: false,
   radiusIncrement: 0,
 
 
@@ -21,15 +26,19 @@ re.c('lure')
   	}
 
   	if (this.posY >= re('water')[0].posY) {
-  		this.flying = false
-  		this.floating = true
+  		this.state = 'floating'
   	}
-  	if (this.attached) {
-  		this.moveFromPole()
-  	} else if (this.flying) {
-  		this.moveFlying()
-  	} else if (this.floating) {
-  		this.moveFloating()
+
+  	switch(this.state) {
+  		case 'attached':
+  			this.moveFromPole()
+  			break;
+  		case 'flying':
+  			this.moveFlying()
+  			break;
+  		case 'floating':
+			this.moveFloating()
+  			break;
   	}
 
   	if (this.posY > 400) {
@@ -78,8 +87,7 @@ re.c('lure')
   	console.log('angle: ' + this.castedAngle)
   	console.log('radius: ' + this.radiusIncrement)
   	this.flyingRadius = this.pole.scaledSizeX()
-  	this.attached = false;
-  	this.flying = true;
+  	this.state = 'flying'
   }
 })
 .init(function(){
