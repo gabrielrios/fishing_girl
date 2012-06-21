@@ -1,10 +1,9 @@
 re.c('lure')
-.requires('image lureSmall.png update force')
+.requires('image lureSmall.png update mouse')
 .defines({
   color: 'rgb(100, 200, 200)',
   radius: 5,
-  flying: false,
-  attached: true,
+  estate: 'attached'
   castedAngle: 0,
   floating: false,
   radiusIncrement: 0,
@@ -17,6 +16,10 @@ re.c('lure')
   },
 
   update: function() {
+  	if (re.pressed('mouse:left')) {
+  		this.flyingRadius -= 1
+  	}
+
   	if (this.posY >= re('water')[0].posY) {
   		this.flying = false
   		this.floating = true
@@ -25,6 +28,8 @@ re.c('lure')
   		this.moveFromPole()
   	} else if (this.flying) {
   		this.moveFlying()
+  	} else if (this.floating) {
+  		this.moveFloating()
   	}
 
   	if (this.posY > 400) {
@@ -35,6 +40,16 @@ re.c('lure')
   moveFlying: function() {
   	this.castedAngle += 5;
   	this.flyingRadius += this.radiusIncrement;
+  	this.move(this.castedAngle, this.flyingRadius)
+  },
+
+  moveFloating: function() {
+  	if (this.posX + this.sizeX/2 >= this.pole.posX + this.pole.scaledSizeX()) {
+  		this.castedAngle += 0.1;	
+  	} 
+  	
+  	// console.log(this.posX)
+  	// console.log()
   	this.move(this.castedAngle, this.flyingRadius)
   },
 
@@ -69,7 +84,7 @@ re.c('lure')
 })
 .init(function(){
   this.on({
-  	update: this.update
+  	update: this.update,
   })
 })
 .dispose(function(){

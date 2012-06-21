@@ -8,13 +8,14 @@ re.scene('home')
   
   var water = re.e('water')
   re.e('cliff')
-  re.e('hero')
+  
 
   re.e('line')
 
   pole = re.e('pole')
   .attr('posX', 210)
   .attr('posY', 130)
+  re.e('hero')
 
   
   re.e('text align')

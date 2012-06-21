@@ -10,7 +10,7 @@ re.c('pole')
 	height: 50,
   rotation: 0, // Degrees
   casting: false,
-  angularVel: 10, //Degrees,
+  angularVel: 5, //Degrees,
   scaleX: 0.5,
   scaleY: 0.5,
   castingDirection: -1,
