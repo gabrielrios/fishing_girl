@@ -1,6 +1,7 @@
 /*
   Fishing girl Pole
 
+  states: waiting, casting, casted, luring
   obs: align serves as initial prototype helper to align the pole, should be removed in advanced stages
 */
 
@@ -9,14 +10,14 @@ re.c('pole')
 .defines({
 	height: 50,
   rotation: 0, // Degrees
-  casting: false,
+  state: 'waiting',
   angularVel: 5, //Degrees,
   scaleX: 0.5,
   scaleY: 0.5,
   castingDirection: -1,
 
   update: function() {
-    if (this.casting) {
+    if (['casting', 'casted'].indexOf(this.state) >= 0) {
       this.angularMovement()
     }
   },
@@ -24,7 +25,7 @@ re.c('pole')
   angularMovement: function() {
     this.rotation += this.castingDirection * this.angularVel;
     this.changeDirection();
-    if (this.rotation > 0) {
+    if (this.rotation >= 0) {
       this.castingDirection *= -1;
       this.stopCasting();
     }
@@ -36,12 +37,14 @@ re.c('pole')
   },
 
   stopCasting: function() {
-    this.casting = false;
+    if (['casting', 'casted'].indexOf(this.state) >= 0) {
+      this.state = 'waiting';
+    }
     this.rotation = 0;
   },
 
   startCasting: function() {
-    if (!this.casting) {
+    if (this.state == 'waiting') {
       this.rotation = 0;
     }
 
@@ -49,7 +52,7 @@ re.c('pole')
       this.lure = re.e('lure')
       this.lure.setPole(this)
     }
-    this.casting = true;
+    this.state = 'casting';
   },
 
   throwLure: function() {
@@ -57,11 +60,24 @@ re.c('pole')
     this.lure = null
     if (this.castingDirection == -1)
       this.castingDirection *= -1
+    this.state = 'casted'
   },
 
   // move to other component
   scaledSizeX: function() {
     return this.sizeX*this.scaleX
+  },
+
+  inputDown: function() {
+    if (this.state == 'waiting') {
+      this.startCasting()
+    }
+  },
+
+  inputUp: function() {
+    if (this.state == 'casting') {
+      this.throwLure();
+    }
   }
 })
 .init(function(){
@@ -71,8 +87,8 @@ re.c('pole')
   this.on('update', this.update)
   // this.on('keydown:a', this.startCasting)
   // this.on('keyup:a', this.throwLure)
-  this.on('mousedown', this.startCasting)
-  this.on('mouseup', this.throwLure)
+  this.on('mousedown', this.inputDown)
+  this.on('mouseup', this.inputUp)
 })
 .dispose(function(){
   

@@ -5,7 +5,7 @@
 */
 
 re.c('lure')
-.requires('image lureSmall.png update mouse')
+.requires('image lureSmall.png update mouse force')
 .defines({
   color: 'rgb(100, 200, 200)',
   radius: 5,
@@ -21,12 +21,22 @@ re.c('lure')
   },
 
   update: function() {
-  	if (re.pressed('mouse:left')) {
-  		this.flyingRadius -= 1
+  	if (this.state == 'floating' && re.pressed('mouse:left')) {
+  		if (this.posX + this.sizeX/2 >= this.pole.posX + this.pole.scaledSizeX()) {
+  			this.flyingRadius -= 1
+  		} else {
+  			this.velY -= 1;
+  			console.log('eslse da parada')
+  		}
   	}
 
-  	if (this.posY >= re('water')[0].posY) {
+  	waterPos = re('water')[0].posY
+  	if (this.state == 'flying' && this.posY >= waterPos) {
   		this.state = 'floating'
+  		this.pole.state = 'luring'
+  	} else if (this.state == 'floating' && this.posY <= this.pole.posY) {
+  		this.pole.state = 'waiting'
+  		this.dispose()
   	}
 
   	switch(this.state) {
@@ -41,7 +51,8 @@ re.c('lure')
   			break;
   	}
 
-  	if (this.posY > 400) {
+  	if (this.posY > 400 && this.state == 'luring') {
+  		this.pole.state = 'waiting'
   		this.dispose()
   	}
   },
@@ -55,11 +66,9 @@ re.c('lure')
   moveFloating: function() {
   	if (this.posX + this.sizeX/2 >= this.pole.posX + this.pole.scaledSizeX()) {
   		this.castedAngle += 0.1;	
+  		this.move(this.castedAngle, this.flyingRadius)
+  		console.log('moveFloating')
   	} 
-  	
-  	// console.log(this.posX)
-  	// console.log()
-  	this.move(this.castedAngle, this.flyingRadius)
   },
 
   moveFromPole: function() {
